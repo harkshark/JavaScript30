@@ -25,6 +25,7 @@
       <kbd>F</kbd>
       <span class="sound">openhat</span>
     </div>
+    <!-- TODO: jkl;-->
     <div data-key="71" class="key">
       <kbd>G</kbd>
       <span class="sound">boom</span>
@@ -58,6 +59,55 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+
+/**
+ * Key Down Event Listener
+ */
+window.addEventListener('keydown', event => {
+  // TODO: keyCode vs. key vs. code
+  
+  const audio = document.querySelector(`audio[data-key='${event.keyCode}']`);
+  const key = document.querySelector(`.key[data-key='${event.keyCode}']`);
+
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+
+    key.classList.add('playing');
+  }
+
+});
+
+/**
+ * Remove Transition Function
+ */
+function removeTransition(event) {
+  if (event.propertyName === 'transform') {
+    console.log(this);
+  }
+}
+
+/**
+ * Transition End Event Listeners
+ */
+const keys = document.querySelectorAll('.key');
+
+keys.forEach(key => {
+  key.addEventListener('transitionend', removeTransition);
+});
+
+/**
+ * Key Up Event Listener
+ */
+/*
+window.addEventListener('keyup', event => {
+  const key = document.querySelector(`.key[data-key='${event.keyCode}']`);
+
+  if (key) {
+    key.classList.remove('playing');
+  }
+});
+*/
 
 </script>
 

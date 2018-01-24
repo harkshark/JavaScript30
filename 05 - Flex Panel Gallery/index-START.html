@@ -9,40 +9,44 @@
   <style>
     html {
       box-sizing: border-box;
-      background:#ffc600;
-      font-family:'helvetica neue';
+      background: #ffc600;
+      font-family: 'helvetica neue';
       font-size: 20px;
       font-weight: 200;
     }
-    body {
-      margin: 0;
-    }
-    *, *:before, *:after {
-      box-sizing: inherit;
-    }
 
+    body { margin: 0; }
+    *, *:before, *:after { box-sizing: inherit; }
+
+    /**
+     * Panels
+     */
     .panels {
-      min-height:100vh;
+      display: flex;
+      min-height: 100vh;
       overflow: hidden;
     }
 
     .panel {
-      background:#6B0F9C;
-      box-shadow:inset 0 0 0 5px rgba(255,255,255,0.1);
-      color:white;
+      align-items: center;
+      background: #6B0F9C;
+      background-position: center;
+      background-size: cover;
+      box-shadow: inset 0 0 0 5px rgba(255,255,255,0.1);
+      color: white;
+      display: flex;        /* a flex item and flex container */
+      flex: 1;              /* evenly distribute all panel children of panels flex */
+      flex-direction: column;
+      font-size: 20px;
+      justify-content: center;
       text-align: center;
-      align-items:center;
       /* Safari transitionend event.propertyName === flex */
       /* Chrome + FF transitionend event.propertyName === flex-grow */
       transition:
         font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
         flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
         background 0.2s;
-      font-size: 20px;
-      background-size:cover;
-      background-position:center;
     }
-
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
     .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
@@ -50,10 +54,28 @@
     .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
+    /* Flex Items */
     .panel > * {
-      margin:0;
+      align-items: center;          /* vertical */
+      display: flex;
+      flex: 1 0 auto;
+      justify-content: center;      /* horizontal */
+      margin: 0;
+      transition: transform 0.5s;
       width: 100%;
-      transition:transform 0.5s;
+    }
+
+    .panel > *:first-child {              /* Hey, Give, Experience, Give, Life */
+      transform: translateY(-100%);       /* vertically hide to top */
+    }
+
+    .panel > *:last-child {               /* Dance, Receive, Today, You Can, Motion */
+      transform: translateY(100%);        /* vertically hide to bottom */
+    }
+
+    .panel.open-active > *:first-child,
+    .panel.open-active > *:last-child {
+      transform: translateY(0);           /* return to default vertical position  */
     }
 
     .panel p {
@@ -62,12 +84,14 @@
       text-shadow:0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
     }
+
     .panel p:nth-child(2) {
       font-size: 4em;
     }
 
     .panel.open {
-      font-size:40px;
+      flex: 5;            /* take five times the extra room */
+      font-size: 40px;
     }
 
   </style>
@@ -101,10 +125,38 @@
     </div>
   </div>
 
+
+
+
   <script>
 
-  </script>
+    const panels = document.querySelectorAll('.panel');
 
+    /**
+     * Function Toggle Open
+     */
+    function toggleOpen() {
+      this.classList.toggle('open');
+    }
+
+    /**
+     * Function Toggle Open Active
+     */
+    function toggleOpenActive(event) {
+      if (event.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+
+    /**
+     * Event Listener Click
+     */
+    panels.forEach(panel => {
+      panel.addEventListener('click', toggleOpen);
+      panel.addEventListener('transitionend', toggleOpenActive);
+    });
+
+  </script>
 
 
 </body>

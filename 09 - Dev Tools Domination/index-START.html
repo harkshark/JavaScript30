@@ -6,40 +6,73 @@
 </head>
 <body>
 
-  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+  <button onClick="makeGreen()">Click Me!</button>
 
   <script>
-    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+    const dogs = [
+      { name: 'Snickers', age: 2 },
+      { name: 'Hugo', age: 8 }
+    ];
+
+    const button = document.querySelector('button');
 
     function makeGreen() {
-      const p = document.querySelector('p');
-      p.style.color = '#BADA55';
-      p.style.fontSize = '50px';
+      button.style.color = '#BADA55';
     }
 
     // Regular
+    console.log('Boring...');
 
     // Interpolated
+    console.log('Hello, %s', '🐶');
 
     // Styled
+    console.log('%c Pretty in pink', 'color: magenta')
 
-    // warning!
+    // Warning
+    console.warn('Danger Will Robinson!');
 
-    // Error :|
+    // Error
+    console.error('Shit!');
 
     // Info
+    console.info('Crocodiles eat 3-4 people per year');
 
     // Testing
+    console.assert(1 === 2, 'That is wrong! 1 === 2 is false.');
 
-    // clearing
+    // Clearing
+    // console.clear();
 
     // Viewing DOM Elements
+    console.log(button);
+    console.dir(button);
 
-    // Grouping together
+    // Grouping
+    dogs.forEach((dog) => {
+      console.groupCollapsed(`${dog.name}`);
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old`);
+        console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`);
+    });
 
-    // counting
+    // Counting
+    console.count('Lauren');
+    console.count('Pearl');
+    console.count('Lauren');
 
-    // timing
+    // Table
+    console.table(dogs);
+
+    // Timing
+    console.time('Fetching harkshark@github...');
+    fetch('https://api.github.com/users/harkshark')
+      .then((response) => response.json())
+      .then((data) => {
+        console.timeEnd('Fetching harkshark@github...');
+        console.log(data);
+      });
 
   </script>
 </body>
